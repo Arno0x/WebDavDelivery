@@ -33,8 +33,8 @@ How to use it
 ------------
 
 Installation is pretty straight forward:
-* Git clone this repository: `git clone https://github.com/Arno0x/WebDAVDelivery WebDAVDelivery`
-* cd into the WebDAVDelivery folder: `cd WebDAVDelivery`
+* Git clone this repository: `git clone https://github.com/Arno0x/WebDavDelivery WebDavDelivery`
+* cd into the WebDAVDelivery folder: `cd WebDavDelivery`
 * Give the execution rights to the main script: `chmod +x webDavDelivery.py`
 
 Then put all the files you want to serve in the `servedFiles` directory.
