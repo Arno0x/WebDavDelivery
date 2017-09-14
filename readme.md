@@ -12,7 +12,7 @@ Background information
 
 Check this blog post on how and **why** I came up with the idea of using WebDAV PROPFIND only requests as a covert channel:
 
-[Wordpress:Using WebDAV features as a covert channel](https://arno0x0x.wordpress.com/2017/09/07/using-webdav-features-as-a-covert-channel/)
+[Wordpress: Using WebDAV features as a covert channel](https://arno0x0x.wordpress.com/2017/09/07/using-webdav-features-as-a-covert-channel/)
 
 
 Features
@@ -43,7 +43,7 @@ Eventually, start the pseudo-server: `./webDavDelivery.py`.
 
 **Options**:
 
-You can tell webDavDelivery to server only one single file, no matter what the directory requested by the client is:
+You can tell webDavDelivery to serve only a single file, no matter what the directory requested by the client is:
 	`./webDavDelivery.py -f some_file_path`
 
 The `-v` flag makes webDavDelivery more verbose about the WebDAV traffic. This can help debugging.
