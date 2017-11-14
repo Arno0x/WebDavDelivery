@@ -114,7 +114,7 @@ def optionsResponse():
 	return responseHeader
 
 #------------------------------------------------------------------------
-def propfindResponse(data=None, encode=True):
+def propfindResponse(data=None, encode=True, chunkSize=250):
 
 	# Get current time
 	now = datetime.now().replace(microsecond=0)
@@ -148,7 +148,7 @@ def propfindResponse(data=None, encode=True):
 		# Check if the encoded data contains special characters not suited for a 'Windows' filename
 		if (encodedData.find('/') != -1):
 			encodedData = encodedData.replace('/','_')
-		chunks = list(splitInChunks(encodedData, 250))
+		chunks = list(splitInChunks(encodedData, chunkSize))
 	
 		i = 0
 		for chunk in chunks:
@@ -194,7 +194,10 @@ if __name__ == '__main__':
 	#parser.add_argument("type", help="Type of base64 encoding to be used", choices=['powershell', 'standard'])
 	parser.add_argument("-f", "--singleFile", help="Path to the only file to be delivered", dest="singleFile")
 	parser.add_argument("-v", "--verbose", help="Path to the only file to be delivered", action="store_true", default=False, dest="verbose")
-	args = parser.parse_args() 
+	parser.add_argument("-s", "--size", help="Maximum size of each chunk (filename)", dest="size", default=250)
+	args = parser.parse_args()
+	
+	chunkSize = int(args.size)
 	
 	#------------------------------------------------------------------------
 	# Setup a TCP server listening on port 80
@@ -235,7 +238,7 @@ if __name__ == '__main__':
 						
 						# WebDav client requesting metadata about a directory
 						if request.headers['Depth'] == '0':
-							response = propfindResponse()
+							response = propfindResponse(chunkSize=chunkSize)
 					
 						# WebDav client requesting content of a directory
 						if request.headers['Depth'] == '1':
@@ -252,11 +255,11 @@ if __name__ == '__main__':
 								with open(fileName) as fileHandle:
 									fileBytes = bytearray(fileHandle.read())
 									fileHandle.close()
-									response = propfindResponse(fileBytes)
+									response = propfindResponse(fileBytes, chunkSize=chunkSize)
 									print color("[+] Delivering file [{}]".format(fileName))
 							except IOError:
 								print color("[!] Could not open or read file [{}]".format(fileName))
-								response = propfindResponse()
+								response = propfindResponse(chunkSize=chunkSize)
 
 					print color("[+] Sending WebDav response")
 					if args.verbose:
